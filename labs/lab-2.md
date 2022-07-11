@@ -43,16 +43,15 @@ So, when we see `include ':app'` in the Groovy version, this is actually invokin
 When converting to Kotlin then, we need to update this invocation to use the parentheses `include(":app")`
 
 ## 💡 Converting `build.gradle` to `build.gradle.kts`
-In the generated `build.gradle` file, there is an extension defined to specify the Kotlin version
-`ext.kotlin_version = "1.6.20"`
+In the generated `build.gradle` file, there is a custom Gradle task defined named "clean".
+When converting a Groovy-based Gradle buildscript to a Kotlin-based build script, the syntax for defining a custom Gradle task changes.
 
-This extension is then used in both `build.gradle` and `app/build.gradle`
-
-When converting to `.kts` this extension pattern doesn't work quite the same way.  This leaves us with 2 options:
-1. Update the extension to work in the .kts environment
-2. In our case, we can simply remove it and update the two references accordingly
-    1. In `build.gradle.kts` we can reference the Kotlin version directly as `"1.6.20"`
-    2. In `app/build.gradle.kts` we can remove the explicit declaration of the Kotlin StdLib which is no longer required
+To update the implementation of that custom task, use the following code:
+```kotlin
+task<Delete>("clean") {
+  delete(rootProject.buildDir)
+}
+```
 
 ## 💡 String literals in .kts files
 In Groovy-based `.gradle` files, we cause use single, or double, quotes for String literals
