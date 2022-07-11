@@ -6,19 +6,19 @@ interface Logger {
 
 object BasicLogger : Logger {
   override fun log(msg: String) {
-    TODO()
+    println(msg)
   }
 }
 
 class FancyLogger(tag: String) : Logger {
 
-  private val logTag: String = TODO("Assing from passed argument")
+  private val logTag = tag
 
   override fun log(msg: String) {
-    TODO("Log the passed message with prepended with the logTag")
+    println("$logTag: $msg")
   }
 }
 
 fun BasicLogger.log(msgs: List<String>) {
-  TODO("log each passed string")
+  msgs.forEach { BasicLogger.log(it) }
 }

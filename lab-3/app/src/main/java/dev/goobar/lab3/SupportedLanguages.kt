@@ -10,5 +10,15 @@ sealed class SupportedAndroidLanguageException : Throwable() {
 
 private val supportedLanguages = listOf ("c++", "kotlin", "java")
 fun isSupportedAndroidLangauge(language: String): Boolean {
-  TODO("Use a when expression to evaluate the passed language")
+  return when {
+    language.isBlank() -> {
+      throw EmptyNameException
+    }
+    supportedLanguages.contains(language.lowercase()) -> {
+      return true
+    }
+    else -> {
+      throw InvalidNameException(language)
+    }
+  }
 }
