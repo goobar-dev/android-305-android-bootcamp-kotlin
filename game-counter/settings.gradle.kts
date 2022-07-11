@@ -13,4 +13,4 @@ dependencyResolutionManagement {
   }
 }
 rootProject.name = "Game Counter"
-include ':app'
+include(":app")
