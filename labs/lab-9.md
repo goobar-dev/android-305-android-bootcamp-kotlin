@@ -1,76 +1,84 @@
-# 🖥 Lab 9: Building a Navigation Graph
+# 🖥 Lab 9: Customizing the Look and Feel of Our Application
+Let’s make our app look a little better by leveraging the Android resource system.
 
 ## Objectives
-1. Create a new Navigation resource file named `main_navigation.xml`
-2. Add `MyNotesFragment` and `StudyGuideFragment` as destinations in the navigation graph
-3. Open `navigation_items.xml` and update the `android:id` attribute of each menu item to match the `id` of the corresponding destination in `main_navigation.xml`
-4. In `activity_main.xml`, replace the existing `Fragment` container `FrameLayout` with a `FragmentContainerView`
-    1. Add the following attribute `android:name="androidx.navigation.fragment.NavHostFragment"`
-5. Set `main_navigation.xml` as the `navGraph` for the `FragmentContainerView`
-6. Remove the manual `FragmentTransaction` code from `MyNotesFragment`
-    1. We will be replacing these later in the Lab
-7. Remove the `onItemSelectedListener` from `MainActivity`
-    1. We will be replacing this later in the Lab
-8. Within `MainActivity` get a reference to the `NavController` from the `NavHostFragment`
-9. Call `BottomNavigationView.setupWithNavController()` to connect your `BottomNavigationView` with the `NavController`
-    1. Your `BottomNavigationView` should now change fragments when you select a tab
-10. Add `NoteDetailFragment` and `CreateNoteFragment` as destinations within `main_navigation.xml`
-11. Add `Action`s connecting `MyNotesFragment` to both `NoteDetailFragment` and `CreateNoteFragment`
-12. Update click handlers in `MyNoteFragment` to navigate to the desired fragments using the generated `Action` ids associated with the `Actions` defined in `main_navigation.xml`
-    1. Your app should now navigate to all the fragments as before
-    2. Notice however that clicking the Back button closes the app instead of popping the last `Fragment`
-13. In `MainActivity`, create an `AppBarConfiguration` and use it to call `Toolbar.setupWithNavController` to connect your `Toolbar` with the navigation graph
-    1. Clicking the back button in the `Toolbar` should now properly pop the fragment
-    2. This partially addresses back navigation
-14. In `MainActivity`, override `onBackPressed()` to first check if `NavController.popBackStack()` returns `true` before calling `super.onBackPressed()`
-    1. This should fix the remaining back navigation issue
-15. For each destination in `main_navigation.xml` add a `"ShowBottomNav"` argument and specify a boolean value to control whether the `BottomNavigationView` should be visible when that destination is showing
-15. Add a `OnDestinationChangedListener` to your `NavController`
-16. Within the `OnDestinationChangedListner`, show, or hide, the `BottomNavigationView` based on the `"ShowBottomNav"` argument passed to the callback
-17. For both navigation `Action`s in `main_navigation.xml`, add an enter animation using `app:enterAnim="@android:anim/slide_in_left"`
+1. Define new Color resources to customize your app theme
+2. Update the primary, and secondary colors of your app's theme using the newly created Color resources
+    1. Deploy your app to observe the updated theme
+3. Change your device to Dark Mode and redeploy your app
+    1. Notice that it likely doesn't look how you might expect
+4. Update the `values-night` version of your app's theme with your custom colors and to remove the default `Toolbar`
+5. Add the following values to both the Light and Dark Themes
+    1. `colorSurface`
+    2. `backgroundColor`
+6. Change the `android:background` attribute of each `Fragment` to pull from the Theme's `backgroundColor` property
+7. Add VectorDrawable icons to your `BottomNavigationView` menu
+    1. One icon for `MyNotesFragment`
+    2. One icon for `StudyGuideFragment`
+8. Create a new VectorDrawable icon for thee `FloatingActionButton` in `MyNotesFragment`
+9. Import a custom png icon for the Twitter menu item in your `Toolbar`
+    1. Can find icons here https://www.flaticon.com/
+10. Replace all menu item strings with String resource values
+11. Apply the following text Styles to the `TextViews` in `NoteDetailFragment`
+    1. `TextAppearance.MaterialComponents.Headline3`
+    2. `TextAppearance.MaterialComponents.Headline4`
+    3. `TextAppearance.MaterialComponents.Body1`
+12. Define the following Dimension resources and apply them, where applicable, in your `Fragments`
+    1. `spacing_1x=8dp`
+    2. `spacing_2x=16dp`
+    3. `spacing_3x=24dp`
 
 ## Challenges
-### Animate your screen transitions
-Create a custom animation resource to further customize your Navigation animations.  
-- Look at `@android:anim/slide_out_down` for inspiration.
+### Customize your app icon
+1. Create a custom app icon using the icon creation wizard.
+2. Redploy your app to observe the new icon in your launcher.
 
-# 🖥 Lab 9 Hints: Building a Navigation Graph
+### Support landscape orientation
+Provide an alternative horizontal layout for `CreateNoteFragment` and/or `NoteDetailsFragment`.
+
+To do this, you'll need to create alternative layout resources for the `land` layout resource qualifier.
+
+### Customize your app's typography
+Customize the typography of your app by setting custom text styles in your theme.
+
+# 🖥 Lab 9 Hints: Customizing the Look and Feel of Our Application
 
 ## 💡 Helpful Resources
-- [Getting Started with Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started)
-- [Updating Bottom Navigation with Navigation Component](https://developer.android.com/guide/navigation/navigation-ui?hl=tr#bottom_navigation)
-- [Animating Between Destinations](https://developer.android.com/guide/navigation/navigation-animate-transitions)
+- [Overview of App Resources](https://developer.android.com/guide/topics/resources/providing-resources)
+- [Configuration-Based Resource Naming](https://developer.android.com/guide/topics/resources/providing-resources#QualifierRules)
+- [Themes vs Styles](https://developer.android.com/guide/topics/ui/look-and-feel/themes#versus)
+- [String Resources Docs](https://developer.android.com/guide/topics/resources/string-resource)
+- [Color Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Color)
+- [Dimension Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Dimension)
+- [Style Resources Docs](https://developer.android.com/guide/topics/resources/style-resource)
+- [Boolean Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Bool)
+- [Drawable Resources Docs](https://developer.android.com/guide/topics/resources/drawable-resource)
+- [MaterialComponents Theming Getting Started Guide](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)
+- [Material.io Color System Guide](https://material.io/design/color/the-color-system.html#color-theme-creation)
 
-## 💡 Which dependencies do I need to add?
-While the documentation lists quite a few related dependencies, for this Lab you should only need these two dependencies for the Navigation Component
-```groovy
-dependencies {
-  implementation "androidx.navigation:navigation-fragment-ktx:2.5.0"
-  implementation "androidx.navigation:navigation-ui-ktx:2.5.0"
-}
-```
+## 💡 What other Themes are available?
+There are a lot of possible Themes to choose to apply to your application.  The two flavors you're mostly likely to run across include:
+1. AppCompat
+2. MaterialComponents
 
-## 💡 How to build my Navigation graph?
-A Navigation graph can edited in 2 ways
-1. Using the interactive UI designer
-2. From XML
+When starting a new Android app, it's best these days to use the MaterialCompoents library, and by extension, to use `Theme.MaterialComponents` as a starting point for your own custom app theme.
 
-Anything you change in the UI designer will be reflected in the XML.
+Check out the `Getting started with Material Components for Android` [README](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md) for more info.
 
-## 💡 How to add a destination to my Navigation graph?
-You can do this 2 ways
-1. Open the UI designer, and click the `Add Destination` button in the toolbar. Look for the green + icon.
-2. In the XML, add a `<Fragment>` tag and specify the `android:id` and `android:name` attributes
+## 💡 How to pick colors for my app theme?
+Check out the [Material.io Color tool](https://material.io/resources/color/#!/?view.left=0&view.right=0)
 
-## 💡 How to add a Navigation Action from one destination to another?
-This can be done 2 ways
-1. In the UI designer, drag from one Destination to the other.  This should create a line connecting the two Destinations.  This line represents the Action and can be selected/configured.
-2. In the XML, find the `<Fragment>` tag for the destination you're starting from.  Within that tag, add a `<action>` specifying the `android:id` and `app:destination` attributes
+## 💡 How are my Theme colors applied to my app?
+The colors applied to our application theme make up the default set of colors that our Views will pull from for their default styling.
 
-## 💡 How to parse an argument from NavController.addOnDestinationChangedListener() ?
-Do you need to check whether a Navigation destination includes a specific argument when navigated to?
+This is especially true when using Views from the Material Components library which do a great job with default theming.
 
-Let's imagine we're checking the value of `"ShowAppBar"`.  Within our `OnDestinationChangedListener` we could check for the argument value like this:
-```kotlin
-val showAppBar = arguments?.getBoolean("ShowAppBar", false) == true
-```
+The Material.io site has some [great resources](https://material.io/develop/android/theming/color) for better understanding how individual Theme colors are used.
+A few of the most common colors include
+1. `colorPrimary`: _The color displayed most frequently across your app’s screens and components_
+2. `colorPrimaryVariant`: _A tonal variation of the primary color. For light-mode themes, this is usually a slightly darker variant of `colorPrimary`_
+3. `colorOnPrimary`: _A color that passes accessibility guidelines for text/iconography when drawn on top of the primary color._
+4. `colorSecondary`: _The secondary branding color for the app, usually an accented complement to the primary branding color._
+
+## 💡 How to get the backgroundColor property from the Theme?
+If you want to use the Theme's current `backgroundColor` property for you own `View`, say for example the background of a `Fragment` container, you can reference the property as `android:background="?backgroundColor"`

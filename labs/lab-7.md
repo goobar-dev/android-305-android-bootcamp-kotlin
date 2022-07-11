@@ -1,84 +1,89 @@
-# 🖥 Lab 7: Customizing the Look and Feel of Our Application
-Let’s make our app look a little better by leveraging the Android resource system.
+# 🖥 Lab 7: Building a Complex User Interface
 
 ## Objectives
-1. Define new Color resources to customize your app theme
-2. Update the primary, and secondary colors of your app's theme using the newly created Color resources
-    1. Deploy your app to observe the updated theme
-3. Change your device to Dark Mode and redeploy your app
-    1. Notice that it likely doesn't look how you might expect
-4. Update the `values-night` version of your app's theme with your custom colors and to remove the default `Toolbar`
-5. Add the following values to both the Light and Dark Themes
-    1. `colorSurface`
-    2. `backgroundColor`
-6. Change the `android:background` attribute of each `Fragment` to pull from the Theme's `backgroundColor` property
-7. Add VectorDrawable icons to your `BottomNavigationView` menu
-    1. One icon for `MyNotesFragment`
-    2. One icon for `StudyGuideFragment`
-8. Create a new VectorDrawable icon for thee `FloatingActionButton` in `MyNotesFragment`
-9. Import a custom png icon for the Twitter menu item in your `Toolbar`
-    1. Can find icons here https://www.flaticon.com/
-10. Replace all menu item strings with String resource values
-11. Apply the following text Styles to the `TextViews` in `NoteDetailFragment`
-    1. `TextAppearance.MaterialComponents.Headline3`
-    2. `TextAppearance.MaterialComponents.Headline4`
-    3. `TextAppearance.MaterialComponents.Body1`
-12. Define the following Dimension resources and apply them, where applicable, in your `Fragments`
-    1. `spacing_1x=8dp`
-    2. `spacing_2x=16dp`
-    3. `spacing_3x=24dp`
+1. Add a custom `Toolbar` to `MainActivity`
+    1. Change `Theme.AndroidStudyGuide` to extend `DarkActionBar` to `NoActionBar`
+    2. Add a `Toolbar` `View` to `activity_main.xml`
+    3. Set the `Toolbar` title to `"Android Study Guide"`
+2. Add an overflow menu to the `Toolbar` that includes an option for showing `TwitterActivity`
+    1. Create a new `Menu` resource named `main_toolbar.xml`
+    2. Call `Toolbar.inflatMenu()` to add the `Menu` to the `Toolbar`
+    3. Implement `Toolbar.setOnMenuItemClickListener()` to respond to clicking the menu item by showing `TwitterActivity`
+    4. Remove the previously added Twitter button
+3. Update `MainActivity` to use a `BottomNavigationView` to display `MyNotesFragment` and `StudyGuideFragment`
+    1. Add `BottomNavigationView` to bottom of `activity_main.xml`
+    2. Create a new `Menu` resource named `navigation_items.xml` that includes 2 items; 1 for "Notes" and 1 for "Guide"
+    3. Set the items into the `BottomNavigtionView` using `app:menu="@menu/navigation_items"`
+    4. Re-constrain `fragmentContainer` so that if fits between the `Toolbar` and `BottomNavigationView`
+    5. In `MainActivity`, implement `BottomNavigationView.setOnItemSelectedListener()` to show `MyNotesFragment` and `StudyGuideFragment` when the corresponding tab is clicked
+    6. Ensure `MyNotesFragment` is initially shown by calling `bottomNav.selectedItemId = R.id.myNotes` after setting up the item click listener
+4. Prepare `MyNotesFragment` for future interactions
+    1. Add a `FloatingActionButton` that shows `CreateNoteFragment` when clicked
+    2. Add a `Button` that shows `NoteDetailFragment` when clicked
+5. Now that all `Fragments` can be reached without them, remove remaining buttons from `activity_main.xml`
+6. Setup basic note creation UI for `CreateNoteFragment`
+    1. Add a `TextInputLayout` for collecting a note title from the user
+    2. Add a `Spinner` for selecting note category and pre-populate it with you desired note categories
+    3. Add a `TextInputLayout` for collecting the note content from th user
+7. Setup basic note detail UI for `NoteDetailFragment`
+    1. Add a `TextView` for displaying the note title
+    2. Add a `TextView` for displaying the note category
+    3. Add a `TextView` for displaying the note content
 
 ## Challenges
-### Customize your app icon
-1. Create a custom app icon using the icon creation wizard.
-2. Redploy your app to observe the new icon in your launcher.
+### TextInput Styling
+Update your `TextInputLayout`s to use the `Outlined` theme so they look a nicer.
 
-### Support landscape orientation
-Provide an alternative horizontal layout for `CreateNoteFragment` and/or `NoteDetailsFragment`.
-
-To do this, you'll need to create alternative layout resources for the `land` layout resource qualifier.
-
-### Customize your app's typography
-Customize the typography of your app by setting custom text styles in your theme.
-
-# 🖥 Lab 7 Hints: Customizing the Look and Feel of Our Application
+# 🖥 Lab 7: Building a Complex User Interface
 
 ## 💡 Helpful Resources
-- [Overview of App Resources](https://developer.android.com/guide/topics/resources/providing-resources)
-- [Configuration-Based Resource Naming](https://developer.android.com/guide/topics/resources/providing-resources#QualifierRules)
-- [Themes vs Styles](https://developer.android.com/guide/topics/ui/look-and-feel/themes#versus)
-- [String Resources Docs](https://developer.android.com/guide/topics/resources/string-resource)
-- [Color Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Color)
-- [Dimension Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Dimension)
-- [Style Resources Docs](https://developer.android.com/guide/topics/resources/style-resource)
-- [Boolean Resources Docs](https://developer.android.com/guide/topics/resources/more-resources#Bool)
-- [Drawable Resources Docs](https://developer.android.com/guide/topics/resources/drawable-resource)
-- [MaterialComponents Theming Getting Started Guide](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)
-- [Material.io Color System Guide](https://material.io/design/color/the-color-system.html#color-theme-creation)
+- [BottomNavigationView Documentation](https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView)
+- [Set Up the App Bar Documentation](https://developer.android.com/training/appbar/setting-up)
+- [Toolbar.inflateMenu()](https://developer.android.com/reference/android/widget/Toolbar#inflateMenu(int))
+- [Populating a Dropdown Spinner](https://developer.android.com/guide/topics/ui/controls/spinner)
+- [TextInputLayout Documentation](https://developer.android.com/reference/com/google/android/material/textfield/TextInputLayout)
+- [MaterialDesign Text Fields Guidance](https://material.io/components/text-fields/android)
 
-## 💡 What other Themes are available?
-There are a lot of possible Themes to choose to apply to your application.  The two flavors you're mostly likely to run across include:
-1. AppCompat
-2. MaterialComponents
+## 💡 Setting Toolbar title
+The title of a `Toolbar` can be set programmatically or in xml.
 
-When starting a new Android app, it's best these days to use the MaterialCompoents library, and by extension, to use `Theme.MaterialComponents` as a starting point for your own custom app theme.
+### Via XML
+`app:title="Android Study Guide"`
 
-Check out the `Getting started with Material Components for Android` [README](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md) for more info.
+### Via Code
+```
+binding.toolbar.title = "Your Title"
+```
 
-## 💡 How to pick colors for my app theme?
-Check out the [Material.io Color tool](https://material.io/resources/color/#!/?view.left=0&view.right=0)
+## 💡 View is not constrained properly
+Do you have a view that doesn't seem to respect the constraints you've applied to it?
 
-## 💡 How are my Theme colors applied to my app?
-The colors applied to our application theme make up the default set of colors that our Views will pull from for their default styling.
+Is your view filling the screen in some axis instead of restricting itself to some barrie/alignment?
 
-This is especially true when using Views from the Material Components library which do a great job with default theming.
+This can happen if you've applied constraints, but told the view to `match_parent` along some axis. Double check that your height/width is using `0dp` size along whichever axis it should be constrained.
 
-The Material.io site has some [great resources](https://material.io/develop/android/theming/color) for better understanding how individual Theme colors are used.
-A few of the most common colors include
-1. `colorPrimary`: _The color displayed most frequently across your app’s screens and components_
-2. `colorPrimaryVariant`: _A tonal variation of the primary color. For light-mode themes, this is usually a slightly darker variant of `colorPrimary`_
-3. `colorOnPrimary`: _A color that passes accessibility guidelines for text/iconography when drawn on top of the primary color._
-4. `colorSecondary`: _The secondary branding color for the app, usually an accented complement to the primary branding color._
+## 💡 Z-ordering
+Views in a layout have an implicit z-ordering.  Items defined _after_ other items will draw on top of preceding items.
+However, the z-ordering also takes into account any elevation applied to an element.
 
-## 💡 How to get the backgroundColor property from the Theme?
-If you want to use the Theme's current `backgroundColor` property for you own `View`, say for example the background of a `Fragment` container, you can reference the property as `android:background="?backgroundColor"`
+Take the following scenario for example:
+```
+<ViewGroup>
+  <Material.Button>
+  <FrameLayout>
+</ViewGroup>
+```
+
+Which element will be drawn on top of the other?
+We might thing that the FrameLayout will be on top because it's defined second.
+
+However, because the Button View defined in the Material design component library have an elevation applied to them, they actually get drawn over the FrameLayout.
+
+This may not be what you want/expect.  To fix this, you could show/hide the Buttons as needed, or you could apply a greater elevation to the FrameLayout so its content draws above the Button.
+
+## 💡 Theming TextInputLayout
+`TextInputLayout` comes in 2 styles:
+1. `Filled`
+2. `Outlined`
+
+To change the style to `Outline` apply the following to your XML `style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"`

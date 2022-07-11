@@ -1,89 +1,76 @@
-# 🖥 Lab 6: Building a Complex User Interface
+# 🖥 Lab 6: Building a Navigation Graph
 
 ## Objectives
-1. Add a custom `Toolbar` to `MainActivity`
-    1. Change `Theme.AndroidStudyGuide` to extend `DarkActionBar` to `NoActionBar`
-    2. Add a `Toolbar` `View` to `activity_main.xml`
-    3. Set the `Toolbar` title to `"Android Study Guide"`
-2. Add an overflow menu to the `Toolbar` that includes an option for showing `TwitterActivity`
-    1. Create a new `Menu` resource named `main_toolbar.xml`
-    2. Call `Toolbar.inflatMenu()` to add the `Menu` to the `Toolbar`
-    3. Implement `Toolbar.setOnMenuItemClickListener()` to respond to clicking the menu item by showing `TwitterActivity`
-    4. Remove the previously added Twitter button
-3. Update `MainActivity` to use a `BottomNavigationView` to display `MyNotesFragment` and `StudyGuideFragment`
-    1. Add `BottomNavigationView` to bottom of `activity_main.xml`
-    2. Create a new `Menu` resource named `navigation_items.xml` that includes 2 items; 1 for "Notes" and 1 for "Guide"
-    3. Set the items into the `BottomNavigtionView` using `app:menu="@menu/navigation_items"`
-    4. Re-constrain `fragmentContainer` so that if fits between the `Toolbar` and `BottomNavigationView`
-    5. In `MainActivity`, implement `BottomNavigationView.setOnItemSelectedListener()` to show `MyNotesFragment` and `StudyGuideFragment` when the corresponding tab is clicked
-    6. Ensure `MyNotesFragment` is initially shown by calling `bottomNav.selectedItemId = R.id.myNotes` after setting up the item click listener
-4. Prepare `MyNotesFragment` for future interactions
-    1. Add a `FloatingActionButton` that shows `CreateNoteFragment` when clicked
-    2. Add a `Button` that shows `NoteDetailFragment` when clicked
-5. Now that all `Fragments` can be reached without them, remove remaining buttons from `activity_main.xml`
-6. Setup basic note creation UI for `CreateNoteFragment`
-    1. Add a `TextInputLayout` for collecting a note title from the user
-    2. Add a `Spinner` for selecting note category and pre-populate it with you desired note categories
-    3. Add a `TextInputLayout` for collecting the note content from th user
-7. Setup basic note detail UI for `NoteDetailFragment`
-    1. Add a `TextView` for displaying the note title
-    2. Add a `TextView` for displaying the note category
-    3. Add a `TextView` for displaying the note content
+1. Create a new Navigation resource file named `main_navigation.xml`
+2. Add `MyNotesFragment` and `StudyGuideFragment` as destinations in the navigation graph
+3. Open `navigation_items.xml` and update the `android:id` attribute of each menu item to match the `id` of the corresponding destination in `main_navigation.xml`
+4. In `activity_main.xml`, replace the existing `Fragment` container `FrameLayout` with a `FragmentContainerView`
+   1. Add the following attribute `android:name="androidx.navigation.fragment.NavHostFragment"`
+5. Set `main_navigation.xml` as the `navGraph` for the `FragmentContainerView`
+6. Remove the manual `FragmentTransaction` code from `MyNotesFragment`
+   1. We will be replacing these later in the Lab
+7. Remove the `onItemSelectedListener` from `MainActivity`
+   1. We will be replacing this later in the Lab
+8. Within `MainActivity` get a reference to the `NavController` from the `NavHostFragment`
+9. Call `BottomNavigationView.setupWithNavController()` to connect your `BottomNavigationView` with the `NavController`
+   1. Your `BottomNavigationView` should now change fragments when you select a tab
+10. Add `NoteDetailFragment` and `CreateNoteFragment` as destinations within `main_navigation.xml`
+11. Add `Action`s connecting `MyNotesFragment` to both `NoteDetailFragment` and `CreateNoteFragment`
+12. Update click handlers in `MyNoteFragment` to navigate to the desired fragments using the generated `Action` ids associated with the `Actions` defined in `main_navigation.xml`
+   1. Your app should now navigate to all the fragments as before
+   2. Notice however that clicking the Back button closes the app instead of popping the last `Fragment`
+13. In `MainActivity`, create an `AppBarConfiguration` and use it to call `Toolbar.setupWithNavController` to connect your `Toolbar` with the navigation graph
+   1. Clicking the back button in the `Toolbar` should now properly pop the fragment
+   2. This partially addresses back navigation
+14. In `MainActivity`, override `onBackPressed()` to first check if `NavController.popBackStack()` returns `true` before calling `super.onBackPressed()`
+   1. This should fix the remaining back navigation issue
+15. For each destination in `main_navigation.xml` add a `"ShowBottomNav"` argument and specify a boolean value to control whether the `BottomNavigationView` should be visible when that destination is showing
+15. Add a `OnDestinationChangedListener` to your `NavController`
+16. Within the `OnDestinationChangedListner`, show, or hide, the `BottomNavigationView` based on the `"ShowBottomNav"` argument passed to the callback
+17. For both navigation `Action`s in `main_navigation.xml`, add an enter animation using `app:enterAnim="@android:anim/slide_in_left"`
 
 ## Challenges
-### TextInput Styling
-Update your `TextInputLayout`s to use the `Outlined` theme so they look a nicer.
+### Animate your screen transitions
+Create a custom animation resource to further customize your Navigation animations.
+- Look at `@android:anim/slide_out_down` for inspiration.
 
-# 🖥 Lab 6: Building a Complex User Interface
+# 🖥 Lab 6 Hints: Building a Navigation Graph
 
 ## 💡 Helpful Resources
-- [BottomNavigationView Documentation](https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView)
-- [Set Up the App Bar Documentation](https://developer.android.com/training/appbar/setting-up)
-- [Toolbar.inflateMenu()](https://developer.android.com/reference/android/widget/Toolbar#inflateMenu(int))
-- [Populating a Dropdown Spinner](https://developer.android.com/guide/topics/ui/controls/spinner)
-- [TextInputLayout Documentation](https://developer.android.com/reference/com/google/android/material/textfield/TextInputLayout)
-- [MaterialDesign Text Fields Guidance](https://material.io/components/text-fields/android)
+- [Getting Started with Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started)
+- [Updating Bottom Navigation with Navigation Component](https://developer.android.com/guide/navigation/navigation-ui?hl=tr#bottom_navigation)
+- [Animating Between Destinations](https://developer.android.com/guide/navigation/navigation-animate-transitions)
 
-## 💡 Setting Toolbar title
-The title of a `Toolbar` can be set programmatically or in xml.
-
-### Via XML
-`app:title="Android Study Guide"`
-
-### Via Code
-```
-binding.toolbar.title = "Your Title"
+## 💡 Which dependencies do I need to add?
+While the documentation lists quite a few related dependencies, for this Lab you should only need these two dependencies for the Navigation Component
+```groovy
+dependencies {
+  implementation "androidx.navigation:navigation-fragment-ktx:2.5.0"
+  implementation "androidx.navigation:navigation-ui-ktx:2.5.0"
+}
 ```
 
-## 💡 View is not constrained properly
-Do you have a view that doesn't seem to respect the constraints you've applied to it?
+## 💡 How to build my Navigation graph?
+A Navigation graph can edited in 2 ways
+1. Using the interactive UI designer
+2. From XML
 
-Is your view filling the screen in some axis instead of restricting itself to some barrie/alignment?
+Anything you change in the UI designer will be reflected in the XML.
 
-This can happen if you've applied constraints, but told the view to `match_parent` along some axis. Double check that your height/width is using `0dp` size along whichever axis it should be constrained.
+## 💡 How to add a destination to my Navigation graph?
+You can do this 2 ways
+1. Open the UI designer, and click the `Add Destination` button in the toolbar. Look for the green + icon.
+2. In the XML, add a `<Fragment>` tag and specify the `android:id` and `android:name` attributes
 
-## 💡 Z-ordering
-Views in a layout have an implicit z-ordering.  Items defined _after_ other items will draw on top of preceding items.
-However, the z-ordering also takes into account any elevation applied to an element.
+## 💡 How to add a Navigation Action from one destination to another?
+This can be done 2 ways
+1. In the UI designer, drag from one Destination to the other.  This should create a line connecting the two Destinations.  This line represents the Action and can be selected/configured.
+2. In the XML, find the `<Fragment>` tag for the destination you're starting from.  Within that tag, add a `<action>` specifying the `android:id` and `app:destination` attributes
 
-Take the following scenario for example:
+## 💡 How to parse an argument from NavController.addOnDestinationChangedListener() ?
+Do you need to check whether a Navigation destination includes a specific argument when navigated to?
+
+Let's imagine we're checking the value of `"ShowAppBar"`.  Within our `OnDestinationChangedListener` we could check for the argument value like this:
+```kotlin
+val showAppBar = arguments?.getBoolean("ShowAppBar", false) == true
 ```
-<ViewGroup>
-  <Material.Button>
-  <FrameLayout>
-</ViewGroup>
-```
-
-Which element will be drawn on top of the other?
-We might thing that the FrameLayout will be on top because it's defined second.
-
-However, because the Button View defined in the Material design component library have an elevation applied to them, they actually get drawn over the FrameLayout.
-
-This may not be what you want/expect.  To fix this, you could show/hide the Buttons as needed, or you could apply a greater elevation to the FrameLayout so its content draws above the Button.
-
-## 💡 Theming TextInputLayout
-`TextInputLayout` comes in 2 styles:
-1. `Filled`
-2. `Outlined`
-
-To change the style to `Outline` apply the following to your XML `style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"`
