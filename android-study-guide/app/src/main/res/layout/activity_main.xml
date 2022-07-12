@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+  <TextView
+      android:id="@+id/labelTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Main Activity"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.22000003"
+      />
+
+  <Button
+      android:id="@+id/showTwitterButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:text="Show Twitter"
+      app:layout_constraintTop_toBottomOf="@id/labelTextView"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <Button
+      android:id="@+id/createNoteButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:text="Create Note"
+      app:layout_constraintTop_toBottomOf="@id/showTwitterButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <Button
+      android:id="@+id/noteDetailButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:text="Note Details"
+      app:layout_constraintTop_toBottomOf="@id/createNoteButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <Button
+      android:id="@+id/myNotesButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:text="My Notes"
+      app:layout_constraintTop_toBottomOf="@id/noteDetailButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <Button
+      android:id="@+id/studyGuideButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:text="Study Guide"
+      app:layout_constraintTop_toBottomOf="@id/myNotesButton"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
+
+  <FrameLayout
+      android:id="@+id/fragmentContainer"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:elevation="4dp"
+      />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
