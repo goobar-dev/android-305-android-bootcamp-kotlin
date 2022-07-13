@@ -3,11 +3,13 @@
 
   <item
       android:id="@+id/myNotesFragment"
+      android:icon="@drawable/ic_baseline_notes_24"
       android:title="My Notes"
     />
 
   <item
       android:id="@+id/studyGuideFragment"
+      android:icon="@drawable/ic_baseline_menu_book_24"
       android:title="Study Guide"
       />
 </menu>

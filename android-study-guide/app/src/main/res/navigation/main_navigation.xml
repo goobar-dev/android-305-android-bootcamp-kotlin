@@ -8,49 +8,49 @@
   <fragment
       android:id="@+id/myNotesFragment"
       android:name="dev.goobar.androidstudyguide.MyNotesFragment"
-      android:label="fragment_my_notes"
-      tools:layout="@layout/fragment_my_notes" >
+      android:label="My Notes"
+      tools:layout="@layout/fragment_my_notes">
     <action
         android:id="@+id/action_myNotesFragment_to_noteDetailFragment"
-        app:enterAnim="@android:anim/slide_in_left"
-        app:destination="@id/noteDetailFragment" />
+        app:destination="@id/noteDetailFragment"
+        app:enterAnim="@android:anim/slide_in_left" />
     <action
         android:id="@+id/action_myNotesFragment_to_createNoteFragment"
-        app:enterAnim="@android:anim/slide_in_left"
-        app:destination="@id/createNoteFragment" />
+        app:destination="@id/createNoteFragment"
+        app:enterAnim="@android:anim/slide_in_left" />
     <argument
         android:name="ShowBottomNav"
-        app:argType="boolean"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        app:argType="boolean" />
   </fragment>
   <fragment
       android:id="@+id/studyGuideFragment"
       android:name="dev.goobar.androidstudyguide.StudyGuideFragment"
-      android:label="fragment_study_guide"
-      tools:layout="@layout/fragment_study_guide" >
+      android:label="Study Guide"
+      tools:layout="@layout/fragment_study_guide">
     <argument
         android:name="ShowBottomNav"
-        app:argType="boolean"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        app:argType="boolean" />
   </fragment>
   <fragment
       android:id="@+id/noteDetailFragment"
       android:name="dev.goobar.androidstudyguide.NoteDetailFragment"
-      android:label="fragment_note_detail"
-      tools:layout="@layout/fragment_note_detail" >
+      android:label="Note Details"
+      tools:layout="@layout/fragment_note_detail">
     <argument
         android:name="ShowBottomNav"
-        app:argType="boolean"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+        app:argType="boolean" />
   </fragment>
   <fragment
       android:id="@+id/createNoteFragment"
       android:name="dev.goobar.androidstudyguide.CreateNoteFragment"
-      android:label="fragment_create_note"
-      tools:layout="@layout/fragment_create_note" >
+      android:label="Create Note"
+      tools:layout="@layout/fragment_create_note">
     <argument
         android:name="ShowBottomNav"
-        app:argType="boolean"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+        app:argType="boolean" />
   </fragment>
 </navigation>
