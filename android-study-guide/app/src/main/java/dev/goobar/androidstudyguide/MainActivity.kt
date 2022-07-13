@@ -3,7 +3,13 @@ package dev.goobar.androidstudyguide
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import dev.goobar.androidstudyguide.R.id
 import dev.goobar.androidstudyguide.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,33 +22,21 @@ class MainActivity : AppCompatActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
-    binding.showTwitterButton.setOnClickListener {
-      val showTwitterIntent = Intent(this@MainActivity, TwitterActivity::class.java)
-      startActivity(showTwitterIntent)
-    }
+    setSupportActionBar(binding.toolbar)
+    val appBarConfiguration = AppBarConfiguration(setOf(id.myNotesFragment, id.studyGuideFragment))
 
-    binding.createNoteButton.setOnClickListener {
-      showFragment(CreateNoteFragment(), "Create Note")
-    }
+    val navController = binding.fragmentContainer.getFragment<NavHostFragment>().navController
+    binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    binding.bottomNavigation.setupWithNavController(navController)
 
-    binding.noteDetailButton.setOnClickListener {
-      showFragment(NoteDetailFragment(), "Note Details")
-    }
-
-    binding.myNotesButton.setOnClickListener {
-      showFragment(MyNotesFragment(), "My Notes")
-    }
-
-    binding.studyGuideButton.setOnClickListener {
-      showFragment(StudyGuideFragment(), "Study Guide")
+    navController.addOnDestinationChangedListener { controller, destination, arguments ->
+      val showBottomNav = arguments?.getBoolean("ShowBottomNav", false) == true
+      binding.bottomNavigation.visibility = if(showBottomNav) View.VISIBLE else View.GONE
     }
   }
 
-  private fun showFragment(fragment: Fragment, name: String) {
-    supportFragmentManager
-      .beginTransaction()
-      .replace(R.id.fragmentContainer, fragment)
-      .addToBackStack(name)
-      .commit()
+  override fun onBackPressed() {
+    if(findNavController(R.id.fragmentContainer).popBackStack()) return
+    super.onBackPressed()
   }
 }

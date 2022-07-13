@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/myNotesFragment">
+
+  <fragment
+      android:id="@+id/myNotesFragment"
+      android:name="dev.goobar.androidstudyguide.MyNotesFragment"
+      android:label="fragment_my_notes"
+      tools:layout="@layout/fragment_my_notes" >
+    <action
+        android:id="@+id/action_myNotesFragment_to_noteDetailFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:destination="@id/noteDetailFragment" />
+    <action
+        android:id="@+id/action_myNotesFragment_to_createNoteFragment"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:destination="@id/createNoteFragment" />
+    <argument
+        android:name="ShowBottomNav"
+        app:argType="boolean"
+        android:defaultValue="true" />
+  </fragment>
+  <fragment
+      android:id="@+id/studyGuideFragment"
+      android:name="dev.goobar.androidstudyguide.StudyGuideFragment"
+      android:label="fragment_study_guide"
+      tools:layout="@layout/fragment_study_guide" >
+    <argument
+        android:name="ShowBottomNav"
+        app:argType="boolean"
+        android:defaultValue="true" />
+  </fragment>
+  <fragment
+      android:id="@+id/noteDetailFragment"
+      android:name="dev.goobar.androidstudyguide.NoteDetailFragment"
+      android:label="fragment_note_detail"
+      tools:layout="@layout/fragment_note_detail" >
+    <argument
+        android:name="ShowBottomNav"
+        app:argType="boolean"
+        android:defaultValue="false" />
+  </fragment>
+  <fragment
+      android:id="@+id/createNoteFragment"
+      android:name="dev.goobar.androidstudyguide.CreateNoteFragment"
+      android:label="fragment_create_note"
+      tools:layout="@layout/fragment_create_note" >
+    <argument
+        android:name="ShowBottomNav"
+        app:argType="boolean"
+        android:defaultValue="false" />
+  </fragment>
+</navigation>
