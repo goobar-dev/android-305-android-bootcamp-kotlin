@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
       android:id="@+id/shareOnTwitter"
       android:icon="@drawable/ic_twitter"
       android:title="@string/share_on_twitter"
+      app:showAsAction="ifRoom"
       />
 </menu>

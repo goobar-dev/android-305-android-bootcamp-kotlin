@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="TextAppearance.StudyGuide.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+    <item name="android:textSize">4sp</item>
+    <item name="android:letterSpacing">2</item>
+  </style>
+</resources>

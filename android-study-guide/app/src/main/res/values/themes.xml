@@ -18,5 +18,7 @@
     <item name="colorOnSurface">@color/black</item>
 
     <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+    <item name="textAppearanceHeadline3">@style/TextAppearance.StudyGuide.Headline3</item>
   </style>
 </resources>
