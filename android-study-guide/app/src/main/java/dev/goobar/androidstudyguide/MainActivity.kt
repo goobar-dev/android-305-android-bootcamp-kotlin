@@ -22,7 +22,14 @@ class MainActivity : AppCompatActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
-    setSupportActionBar(binding.toolbar)
+    binding.toolbar.setOnMenuItemClickListener { item ->
+      if (item.itemId == R.id.shareOnTwitter) {
+        startActivity(Intent(this@MainActivity, TwitterActivity::class.java))
+        true
+      }
+      false
+    }
+    //setSupportActionBar(binding.toolbar)
     val appBarConfiguration = AppBarConfiguration(setOf(id.myNotesFragment, id.studyGuideFragment))
 
     val navController = binding.fragmentContainer.getFragment<NavHostFragment>().navController

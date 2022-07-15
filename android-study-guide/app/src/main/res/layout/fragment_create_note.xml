@@ -7,16 +7,70 @@
     android:background="?android:colorBackground"
     tools:context=".CreateNoteFragment"
     >
-
-  <TextView
-      android:layout_width="wrap_content"
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/titleInputContainer"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:text="Create Note Fragment"
-      app:layout_constraintBottom_toBottomOf="parent"
+      android:layout_marginStart="@dimen/spacing_2x"
+      android:layout_marginEnd="@dimen/spacing_2x"
+      android:layout_marginTop="@dimen/spacing_2x"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.22000003"
+      >
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/titleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a title for your note"
+        />
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <Spinner
+      android:id="@+id/categorySpinner"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="24dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/titleInputContainer"
       />
 
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/noteInputContainer"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="24dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="24dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/categorySpinner"
+      app:layout_constraintVertical_bias="0.0"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+      >
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/noteEditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:hint="Enter your note"
+        />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/saveButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/spacing_2x"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:src="@drawable/ic_baseline_save_24"
+      />
 </androidx.constraintlayout.widget.ConstraintLayout>
