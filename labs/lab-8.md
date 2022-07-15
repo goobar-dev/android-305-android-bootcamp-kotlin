@@ -2,13 +2,15 @@
 Let's add state restoration and input validation to our app.
 
 ## Objectives
-1. Ensure `Fragment` state is preserved on rotation by checking for empty saved state before setting initial `BottomNavigationView` item
-2. Add a Save button to `CreateNoteFragment`
-3. Hide the Save button until all three fields have input
-4. If Save button is clicked with an invalid title, display an error using `TextInputLayout`
-5. If Save button is clicked with invalid content, display an error using `TextInputLayout`
-6. When Save button is clicked with valid inputs, display a "success" `Snackbar` and dismiss the `Fragment`
-7. Show a `Toast` when opening `NoteDetailFragment`
+1. Write a function named `areInputsValid(): Boolean` the checks that both the title, and note, are not empty
+
+2. Hide the Save button until all three fields have input
+
+3. Add a `TextChangeListener` to the title text.  This listener should clear any errors on the `titleInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
+
+4. Add a `TextChangeListener` to the note text.  This listener should clear any errors on the `noteInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
+
+5. Add a click listener to the save button that shows a `Snackbar`.  When the `Snackbar` is dismissed, we should pop the current fragment off the stack
 
 ## Challenges
 ### Exploring state resortation
