@@ -8,7 +8,7 @@
   <fragment
       android:id="@+id/myNotesFragment"
       android:name="dev.goobar.androidstudyguide.MyNotesFragment"
-      android:label="My Notes"
+      android:label="@string/my_notes"
       tools:layout="@layout/fragment_my_notes">
     <action
         android:id="@+id/action_myNotesFragment_to_noteDetailFragment"
@@ -26,7 +26,7 @@
   <fragment
       android:id="@+id/studyGuideFragment"
       android:name="dev.goobar.androidstudyguide.StudyGuideFragment"
-      android:label="Study Guide"
+      android:label="@string/study_guide"
       tools:layout="@layout/fragment_study_guide">
     <argument
         android:name="ShowBottomNav"
@@ -36,7 +36,7 @@
   <fragment
       android:id="@+id/noteDetailFragment"
       android:name="dev.goobar.androidstudyguide.NoteDetailFragment"
-      android:label="Note Details"
+      android:label="@string/note_details"
       tools:layout="@layout/fragment_note_detail">
     <argument
         android:name="ShowBottomNav"
@@ -46,7 +46,7 @@
   <fragment
       android:id="@+id/createNoteFragment"
       android:name="dev.goobar.androidstudyguide.CreateNoteFragment"
-      android:label="Create Note"
+      android:label="@string/create_note"
       tools:layout="@layout/fragment_create_note">
     <argument
         android:name="ShowBottomNav"

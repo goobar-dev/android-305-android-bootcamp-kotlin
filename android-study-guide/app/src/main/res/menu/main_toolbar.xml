@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
       android:id="@+id/shareOnTwitter"
-      android:icon="@drawable/ic_baseline_share_24"
-      android:title="Share on Twitter"
+      android:icon="@drawable/ic_twitter"
+      android:title="@string/share_on_twitter"
       />
 </menu>
