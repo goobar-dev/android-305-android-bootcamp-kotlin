@@ -1,36 +1,47 @@
 # 🖥 Lab 7: Building a Complex User Interface
 
 ## Objectives
-1. Add a custom `Toolbar` to `MainActivity`
-    1. Change `Theme.AndroidStudyGuide` to extend `DarkActionBar` to `NoActionBar`
-    2. Add a `Toolbar` `View` to `activity_main.xml`
-    3. Set the `Toolbar` title to `"Android Study Guide"`
+1. Update styling of `Toolbar`
+    1. In `activity_main.xml` change `androidx.appcompat.widget.Toolbar` to `com.google.android.material.appbar.MaterialToolbar`
+    2. Set `style="@style/Widget.MaterialComponents.Toolbar.Primary"`
+
 2. Add an overflow menu to the `Toolbar` that includes an option for showing `TwitterActivity`
     1. Create a new `Menu` resource named `main_toolbar.xml`
-    2. Call `Toolbar.inflatMenu()` to add the `Menu` to the `Toolbar`
-    3. Implement `Toolbar.setOnMenuItemClickListener()` to respond to clicking the menu item by showing `TwitterActivity`
-    4. Remove the previously added Twitter button
-3. Update `MainActivity` to use a `BottomNavigationView` to display `MyNotesFragment` and `StudyGuideFragment`
-    1. Add `BottomNavigationView` to bottom of `activity_main.xml`
-    2. Create a new `Menu` resource named `navigation_items.xml` that includes 2 items; 1 for "Notes" and 1 for "Guide"
-    3. Set the items into the `BottomNavigtionView` using `app:menu="@menu/navigation_items"`
-    4. Re-constrain `fragmentContainer` so that if fits between the `Toolbar` and `BottomNavigationView`
-    5. In `MainActivity`, implement `BottomNavigationView.setOnItemSelectedListener()` to show `MyNotesFragment` and `StudyGuideFragment` when the corresponding tab is clicked
-    6. Ensure `MyNotesFragment` is initially shown by calling `bottomNav.selectedItemId = R.id.myNotes` after setting up the item click listener
-4. Prepare `MyNotesFragment` for future interactions
-    1. Add a `FloatingActionButton` that shows `CreateNoteFragment` when clicked
-    2. Add a `Button` that shows `NoteDetailFragment` when clicked
-5. Now that all `Fragments` can be reached without them, remove remaining buttons from `activity_main.xml`
-6. Setup basic note creation UI for `CreateNoteFragment`
+    2. Add a menu item with `id="@+id/shareOnTwitter` and `title="Share on Twitter`
+    3. Within `activity_main.xml` add `app:menu="@menu/main_toolbar"` to your `MaterialToolbar`
+    4. In `MainActivity`, implement `Toolbar.setOnMenuItemClickListener()` to respond to clicking the menu item by showing `TwitterActivity`
+
+3. Prepare `MyNotesFragment` for future interactions
+    1. Change the `createNoteButton` to be a `FloatingActionButton`
+    2. Reconstrain the `FloatingActionButton` to the bottom, and end, of the screen
+
+4. Add dimension resources for spacing values
+    1. Create a resources file named `dimens.xml`
+    2. Create a dimen named `spacing_1x` with a value of `8dp`
+    3. Create a dimen named `spacing_2x` with a value of `16dp`
+
+5. Setup basic note creation UI for `CreateNoteFragment`
     1. Add a `TextInputLayout` for collecting a note title from the user
     2. Add a `Spinner` for selecting note category and pre-populate it with you desired note categories
     3. Add a `TextInputLayout` for collecting the note content from th user
-7. Setup basic note detail UI for `NoteDetailFragment`
+    4. Add a `FloatingActionButton` for saving a note
+
+6. Wire up view elements within `CreateNoteFragment`
+    1. Convert `CreateNoteFragment` to use ViewBinding and create a class property storing a reference to the binding object
+    2. Write a function named `areInputsValid(): Boolean` the checks that both the title, and note, are not blank
+    3. Add a `TextChangeListener` to the title text.  This listener should clear any errors on the `titleInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
+    4. Add a `TextChangeListener` to the note text.  This listener should clear any errors on the `noteInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
+    5. Add a click listener to the save button that shows a `Snackbar`.  When the `Snackbar` is dismissed, we should pop the current fragment off the stack
+    6. Create a class `CategorySpinnerAdapter` that extends `ArrayAdapter` and populates the adapter with a `List<String>`
+    7. Create a list of Strings you want to represent your note cateogries, and populate the spinner using an instance of `CategorySpinnerAdapter`
+
+## Challenges
+
+### Setup basic note detail UI for `NoteDetailFragment`
     1. Add a `TextView` for displaying the note title
     2. Add a `TextView` for displaying the note category
     3. Add a `TextView` for displaying the note content
-
-## Challenges
+    
 ### TextInput Styling
 Update your `TextInputLayout`s to use the `Outlined` theme so they look a nicer.
 
