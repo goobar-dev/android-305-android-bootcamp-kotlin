@@ -25,13 +25,7 @@
     2. Add a `Spinner` for selecting note category and pre-populate it with you desired note categories
     3. Add a `TextInputLayout` for collecting the note content from th user
     4. Add a `FloatingActionButton` for saving a note
-
-6. Wire up view elements within `CreateNoteFragment`
-    1. Convert `CreateNoteFragment` to use ViewBinding and create a class property storing a reference to the binding object
-    2. Write a function named `areInputsValid(): Boolean` the checks that both the title, and note, are not blank
-    3. Add a `TextChangeListener` to the title text.  This listener should clear any errors on the `titleInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
-    4. Add a `TextChangeListener` to the note text.  This listener should clear any errors on the `noteInputContainer`, and update the visibility of the save button based on whether or not the inputs are vaild
-    5. Add a click listener to the save button that shows a `Snackbar`.  When the `Snackbar` is dismissed, we should pop the current fragment off the stack
+    5. Convert `CreateNoteFragment` to use ViewBinding and create a class property storing a reference to the binding object
     6. Create a class `CategorySpinnerAdapter` that extends `ArrayAdapter` and populates the adapter with a `List<String>`
     7. Create a list of Strings you want to represent your note cateogries, and populate the spinner using an instance of `CategorySpinnerAdapter`
 
