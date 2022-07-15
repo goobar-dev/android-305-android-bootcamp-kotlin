@@ -9,14 +9,42 @@
     >
 
   <TextView
-      android:layout_width="wrap_content"
+      android:id="@+id/noteTitleTextView"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:text="Note Detail Fragment"
-      app:layout_constraintBottom_toBottomOf="parent"
+      android:textAlignment="viewStart"
+      android:layout_marginVertical="@dimen/spacing_1x"
+      android:layout_marginHorizontal="@dimen/spacing_2x"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.22000003"
+      android:text="My Android note"
+      />
+
+  <TextView
+      android:id="@+id/noteCategoryTextView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:textAlignment="viewStart"
+      android:layout_marginVertical="@dimen/spacing_1x"
+      android:layout_marginHorizontal="@dimen/spacing_2x"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/noteTitleTextView"
+      android:text="Tooling"
+      />
+
+  <TextView
+      android:id="@+id/noteContentTextView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:textAlignment="viewStart"
+      android:layout_marginVertical="@dimen/spacing_1x"
+      android:layout_marginHorizontal="@dimen/spacing_2x"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/noteCategoryTextView"
+      android:text="Android is a complex subject.  It can take a lot of work to learn"
       />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
