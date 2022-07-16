@@ -1,4 +1,4 @@
-package dev.goobar.androidstudyguide
+package dev.goobar.androidstudyguide.create
 
 import android.content.Context
 import android.os.Bundle
@@ -16,15 +16,20 @@ import dev.goobar.androidstudyguide.databinding.FragmentCreateNoteBinding
 
 private val CATEGORIES = listOf("Tooling", "Kotlin", "UI", "Navigation", "Misc")
 
+/**
+ * Allows for the saving and editing of a note
+ */
 class CreateNoteFragment : Fragment() {
 
-  private lateinit var binding: FragmentCreateNoteBinding
+  private var _binding: FragmentCreateNoteBinding? = null
+  private val binding: FragmentCreateNoteBinding
+    get() = _binding!!
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentCreateNoteBinding.inflate(inflater, container, false)
+    _binding = FragmentCreateNoteBinding.inflate(inflater, container, false)
     binding.categorySpinner.adapter = CategorySpinnerAdapter(requireContext(), CATEGORIES)
 
     binding.titleEditText.addTextChangedListener(object : TextWatcher {
@@ -79,6 +84,11 @@ class CreateNoteFragment : Fragment() {
   private fun areInputsEntered(): Boolean {
     return binding.titleEditText.text.isNullOrBlank().not()
         && binding.noteEditText.text.isNullOrBlank().not()
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
   }
 }
 

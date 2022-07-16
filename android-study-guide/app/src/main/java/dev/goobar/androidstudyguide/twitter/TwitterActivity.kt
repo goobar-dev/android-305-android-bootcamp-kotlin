@@ -1,11 +1,12 @@
-package dev.goobar.androidstudyguide
+package dev.goobar.androidstudyguide.twitter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dev.goobar.androidstudyguide.R.layout
 
 class TwitterActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_twitter)
+    setContentView(layout.activity_twitter)
   }
 }

@@ -4,13 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dev.goobar.androidstudyguide.R.id
 import dev.goobar.androidstudyguide.databinding.ActivityMainBinding
+import dev.goobar.androidstudyguide.twitter.TwitterActivity
 
 class MainActivity : AppCompatActivity() {
 
