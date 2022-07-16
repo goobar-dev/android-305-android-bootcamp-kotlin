@@ -4,7 +4,7 @@
   <item
       android:id="@+id/myNotesFragment"
       android:icon="@drawable/ic_baseline_notes_24"
-      android:title="@string/study_guide"
+      android:title="@string/my_notes"
     />
 
   <item
