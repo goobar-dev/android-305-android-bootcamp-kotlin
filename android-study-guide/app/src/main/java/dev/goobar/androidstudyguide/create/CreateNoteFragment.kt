@@ -9,17 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dev.goobar.androidstudyguide.databinding.FragmentCreateNoteBinding
-
-private val CATEGORIES = listOf("Tooling", "Kotlin", "UI", "Navigation", "Misc")
+import kotlinx.coroutines.launch
 
 /**
  * Allows for the saving and editing of a note
  */
 class CreateNoteFragment : Fragment() {
+
+  private val viewModel: CreateNoteViewModel by viewModels()
 
   private var _binding: FragmentCreateNoteBinding? = null
   private val binding: FragmentCreateNoteBinding
@@ -30,7 +35,6 @@ class CreateNoteFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     _binding = FragmentCreateNoteBinding.inflate(inflater, container, false)
-    binding.categorySpinner.adapter = CategorySpinnerAdapter(requireContext(), CATEGORIES)
 
     binding.titleEditText.addTextChangedListener(object : TextWatcher {
       override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -79,6 +83,17 @@ class CreateNoteFragment : Fragment() {
     }
 
     return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    lifecycleScope.launch {
+      repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.state.collect { uiState ->
+          binding.categorySpinner.adapter = CategorySpinnerAdapter(requireContext(), uiState.categories)
+        }
+      }
+    }
   }
 
   private fun areInputsEntered(): Boolean {

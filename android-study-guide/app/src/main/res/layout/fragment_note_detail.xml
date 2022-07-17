@@ -19,7 +19,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-      android:text="My Android note"
+      tools:text="My Android note"
       />
 
   <TextView
@@ -33,7 +33,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/noteTitleTextView"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-      android:text="Tooling"
+      tools:text="Tooling"
       />
 
   <TextView
@@ -47,7 +47,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/noteCategoryTextView"
       android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-      android:text="Android is a complex subject.  It can take a lot of work to learn"
+      tools:text="Android is a complex subject.  It can take a lot of work to learn"
       />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
