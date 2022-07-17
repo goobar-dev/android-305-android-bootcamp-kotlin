@@ -10,13 +10,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dev.goobar.androidstudyguide.R.layout
-import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailBinding
+import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
 import kotlinx.coroutines.launch
 
 /**
  * Displays the details of a saved note
  */
-class NoteDetailFragment : Fragment() {
+class NoteDetailsFragment : Fragment() {
 
   private val viewModel: NoteDetailsViewModel by viewModels()
 
@@ -25,12 +25,12 @@ class NoteDetailFragment : Fragment() {
    * continuing to access the binding in a non-null way within the expected, valid lifecycle of
    * the fragment.
    */
-  private var _binding: FragmentNoteDetailBinding? = null
-  private val binding: FragmentNoteDetailBinding
+  private var _binding: FragmentNoteDetailsBinding? = null
+  private val binding: FragmentNoteDetailsBinding
     get() = _binding!!
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    _binding = FragmentNoteDetailBinding.inflate(inflater, container, false)
+    _binding = FragmentNoteDetailsBinding.inflate(inflater, container, false)
     return binding.root
   }
 

@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dev.goobar.androidstudyguide.R
 import dev.goobar.androidstudyguide.databinding.FragmentMyNotesBinding
-import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailBinding
+import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
 import kotlinx.coroutines.launch
 
 /**
@@ -37,7 +37,7 @@ class MyNotesFragment : Fragment() {
     }
 
     binding.showDetailsButton.setOnClickListener {
-      findNavController().navigate(R.id.action_myNotesFragment_to_noteDetailFragment)
+      findNavController().navigate(R.id.action_myNotesFragment_to_noteDetailsFragment)
     }
 
     return binding.root

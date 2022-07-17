@@ -11,8 +11,8 @@
       android:label="@string/my_notes"
       tools:layout="@layout/fragment_my_notes">
     <action
-        android:id="@+id/action_myNotesFragment_to_noteDetailFragment"
-        app:destination="@id/noteDetailFragment"
+        android:id="@+id/action_myNotesFragment_to_noteDetailsFragment"
+        app:destination="@id/noteDetailsFragment"
         app:enterAnim="@android:anim/slide_in_left" />
     <action
         android:id="@+id/action_myNotesFragment_to_createNoteFragment"
@@ -34,10 +34,10 @@
         app:argType="boolean" />
   </fragment>
   <fragment
-      android:id="@+id/noteDetailFragment"
-      android:name="dev.goobar.androidstudyguide.details.NoteDetailFragment"
+      android:id="@+id/noteDetailsFragment"
+      android:name="dev.goobar.androidstudyguide.details.NoteDetailsFragment"
       android:label="@string/note_details"
-      tools:layout="@layout/fragment_note_detail">
+      tools:layout="@layout/fragment_note_details">
     <argument
         android:name="ShowBottomNav"
         android:defaultValue="false"
