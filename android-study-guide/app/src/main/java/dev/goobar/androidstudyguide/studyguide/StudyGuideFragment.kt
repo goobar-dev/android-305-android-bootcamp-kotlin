@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.goobar.androidstudyguide.R.layout
 import dev.goobar.androidstudyguide.databinding.FragmentStudyGuideBinding
 import kotlinx.coroutines.launch
@@ -24,8 +25,14 @@ class StudyGuideFragment : Fragment() {
   private val binding: FragmentStudyGuideBinding
     get() = _binding!!
 
+  private val topicsAdapter = StudyGuideListAdapter()
+
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     _binding = FragmentStudyGuideBinding.inflate(inflater, container, false)
+
+    binding.topicsList.layoutManager = LinearLayoutManager(requireContext())
+    binding.topicsList.adapter = topicsAdapter
+
     return binding.root
   }
 
@@ -35,7 +42,7 @@ class StudyGuideFragment : Fragment() {
     viewLifecycleOwner.lifecycleScope.launch {
       viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
         viewModel.state.collect { uiState ->
-          binding.titleTextView.text = uiState.title
+          topicsAdapter.submitList(uiState.topics)
         }
       }
     }

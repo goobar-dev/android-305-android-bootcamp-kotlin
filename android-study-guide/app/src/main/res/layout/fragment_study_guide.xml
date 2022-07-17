@@ -8,16 +8,15 @@
     tools:context=".studyguide.StudyGuideFragment"
     >
 
-  <TextView
-      android:id="@+id/titleTextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Study Guide Fragment"
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/topicsList"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.22000003"
+      tools:listitem="@layout/item_topic"
       />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
