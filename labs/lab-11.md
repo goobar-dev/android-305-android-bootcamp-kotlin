@@ -60,11 +60,6 @@ Let’s update our app to display a hardcoded list of data in `MyNotesFragment`
     6. In `NoteDetailsViewModel` update the `state` to pull its data from the passed `Note`
 
 
-## Challenges
-
-1. Update `StudyGuideFragment` to display a list of `Note`
-
-
 # 🖥 Lab 11 Hints: Displaying List Data with RecyclerView
 
 ## 💡 Helpful Resources
