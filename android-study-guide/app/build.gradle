@@ -3,6 +3,7 @@ plugins {
   id 'org.jetbrains.kotlin.android'
   id 'kotlin-parcelize'
   id 'androidx.navigation.safeargs.kotlin'
+  id "com.google.devtools.ksp"
 }
 
 android {
@@ -16,6 +17,10 @@ android {
     versionName "1.0"
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  defaultConfig {
+    buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "${STUDY_GUIDE_SERVICE_URL}")
   }
 
   buildTypes {
@@ -47,6 +52,8 @@ dependencies {
 
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
   implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+  implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+  ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
   testImplementation 'junit:junit:4.13.2'
   androidTestImplementation 'androidx.test.ext:junit:1.1.3'
