@@ -45,7 +45,7 @@
   </fragment>
   <fragment
       android:id="@+id/createNoteFragment"
-      android:name="dev.goobar.androidstudyguide.CreateNoteFragment"
+      android:name="dev.goobar.androidstudyguide.create.CreateNoteFragment"
       android:label="@string/create_note"
       tools:layout="@layout/fragment_create_note">
     <argument
