@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.goobar.androidstudyguide.data.Note
 import dev.goobar.androidstudyguide.data.Topic
+import dev.goobar.androidstudyguide.network.studyGuideService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,21 +16,13 @@ class StudyGuideViewModel : ViewModel() {
   val state: MutableStateFlow<UiState> = MutableStateFlow(UiState(topics = emptyList()))
 
   init {
-    viewModelScope.launch {
-      delay(3000)
-      state.update { currentValue ->
-        UiState(
-          listOf(
-            Topic("Sample Topic 1", listOf("Android"), "A Sample topic"),
-            Topic("Sample Topic 2", listOf("Kotlin"),"A Sample topic"),
-            Topic("Sample Topic 3", listOf("Cloud"),"A Sample topic"),
-          )
-        )
-      }
+    viewModelScope.launch(Dispatchers.IO) {
+      val topics = studyGuideService.getTopics()
+      state.update { currentValue -> UiState(topics) }
     }
   }
 
   data class UiState(
-    val topics: List<Topic>
+    val topics: List<Topic> = emptyList()
   )
 }
