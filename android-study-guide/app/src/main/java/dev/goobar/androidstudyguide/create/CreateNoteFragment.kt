@@ -24,7 +24,9 @@ import kotlinx.coroutines.launch
  */
 class CreateNoteFragment : Fragment() {
 
-  private val viewModel: CreateNoteViewModel by viewModels()
+  private val viewModel: CreateNoteViewModel by viewModels(
+    factoryProducer = { CreateNoteViewModelFactory() }
+  )
 
   private var _binding: FragmentCreateNoteBinding? = null
   private val binding: FragmentCreateNoteBinding
