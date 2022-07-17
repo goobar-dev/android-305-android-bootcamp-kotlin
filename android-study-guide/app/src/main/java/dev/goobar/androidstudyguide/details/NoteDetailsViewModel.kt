@@ -1,15 +1,25 @@
 package dev.goobar.androidstudyguide.details
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import dev.goobar.androidstudyguide.data.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class NoteDetailsViewModel : ViewModel() {
+class NoteDetailsViewModelFactory(
+  private val note: Note
+) : ViewModelProvider.Factory {
+  override fun <T : ViewModel> create(modelClass: Class<T>): T {
+    return NoteDetailsViewModel(note) as T
+  }
+}
+
+class NoteDetailsViewModel(private val note: Note) : ViewModel() {
 
   val state: MutableStateFlow<UiState> = MutableStateFlow(
     UiState(
-      title = "My Android notes",
-      category = "Tooling",
-      content = "Android is a complex subject.  It can take a lot of work to learn."
+      title = note.title,
+      category = note.category,
+      content = note.content
     )
   )
 

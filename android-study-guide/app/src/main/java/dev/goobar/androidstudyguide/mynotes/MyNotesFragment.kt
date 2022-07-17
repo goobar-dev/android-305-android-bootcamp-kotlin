@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.goobar.androidstudyguide.R
 import dev.goobar.androidstudyguide.databinding.FragmentMyNotesBinding
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
@@ -21,6 +23,9 @@ import kotlinx.coroutines.launch
 class MyNotesFragment : Fragment() {
 
   private val viewModel: MyNotesViewModel by viewModels()
+  private val notesAdapter = MyNotesListAdapter() { note ->
+    findNavController().navigate(MyNotesFragmentDirections.actionMyNotesFragmentToNoteDetailsFragment(note))
+  }
 
   private var _binding: FragmentMyNotesBinding? = null
   private val binding: FragmentMyNotesBinding
@@ -36,9 +41,8 @@ class MyNotesFragment : Fragment() {
       findNavController().navigate(R.id.action_myNotesFragment_to_createNoteFragment)
     }
 
-    binding.showDetailsButton.setOnClickListener {
-      findNavController().navigate(R.id.action_myNotesFragment_to_noteDetailsFragment)
-    }
+    binding.notesList.layoutManager = LinearLayoutManager(requireContext())
+    binding.notesList.adapter = notesAdapter
 
     return binding.root
   }
@@ -49,7 +53,7 @@ class MyNotesFragment : Fragment() {
     lifecycleScope.launch {
       repeatOnLifecycle(Lifecycle.State.STARTED) {
         viewModel.state.collect { uiState ->
-          binding.textView.text = uiState.title
+          notesAdapter.submitList(uiState.notes)
         }
       }
     }

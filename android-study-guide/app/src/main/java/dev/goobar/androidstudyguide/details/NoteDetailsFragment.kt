@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import dev.goobar.androidstudyguide.R.layout
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
 import kotlinx.coroutines.launch
@@ -18,7 +19,10 @@ import kotlinx.coroutines.launch
  */
 class NoteDetailsFragment : Fragment() {
 
-  private val viewModel: NoteDetailsViewModel by viewModels()
+  private val args: NoteDetailsFragmentArgs by navArgs()
+  private val viewModel: NoteDetailsViewModel by viewModels(
+    factoryProducer = { NoteDetailsViewModelFactory(args.selectedNote) }
+  )
 
   /**
    * The 2 variables here allow us to set the binding to null in onDestroyView(), while

@@ -42,6 +42,9 @@
         android:name="ShowBottomNav"
         android:defaultValue="false"
         app:argType="boolean" />
+    <argument
+        android:name="selectedNote"
+        app:argType="dev.goobar.androidstudyguide.data.Note" />
   </fragment>
   <fragment
       android:id="@+id/createNoteFragment"
