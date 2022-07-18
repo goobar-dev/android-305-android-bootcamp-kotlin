@@ -2,10 +2,10 @@
 
 ## Objectives
 1. Review navigation to `TwitterActivity` via explicit intent
+
 2. When `TwitterActivity` opens, launch an Implicit `Intent` to send a Tweet
-3. Add a `Share` item to `main_toolbar.xml`
-4. When `Share` is selected, use an Implicit `Intent` to send a message
-5. Add support for selecting and displaying an image in `CreateNoteFragment`
+
+3. Add support for selecting and displaying an image in `CreateNoteFragment`
     1. Within `CreateNoteFragment`, add an `ImageView` with a default svg icon
     2. When the `ImageView` is clicked, create an Implicit `Intent` to select an image`
     3. Start the image selection `Intent` with `startActivityForResult(imageSelectionIntent)`
