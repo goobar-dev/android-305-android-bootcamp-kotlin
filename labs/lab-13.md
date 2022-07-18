@@ -2,22 +2,46 @@
 Let's save the last selected note category and default to that whenever the `CreateNoteFragment` is displayed
 
 ## Objectives
-1. Integrate Proto DataStore into the project
+
+0. Integrate Proto DataStore into the project (already done in starter code)
     1. Apply the `com.google.protobuf` plugin to your project (see hints)
     2. Add the DataStore dependency to your project (see hints)
     3. Add `protobuf{}` config block `app/build.gradle` (see hints)
+    
+1. Add the Data Store dependency `implementation "androidx.datastore:datastore:1.0.0"`    
+    
 2. Define protobuf message to represent the default note category
-    1. Create a protobuf file at `app/src/main/proto/DefaultCategory.proto`
-    2. Within `DefaultCategory.proto`, define a `DefaultCategory` proto message with a single `string category = 1;` field
+    1. Create a protobuf file named `DefaultCategory.proto` file at `app/src/main/proto/DefaultCategory.proto`
+    2. Within `DefaultCategory.proto`, define a `DefaultCategory` proto message with a single `string category = 1;` field (see hints)
+
 3. Prepare DataStore for interaction
-    1. Create `DefaultCategorylSerializer` class that extends `Serializer<DefaultCategory>` (see hints)
-    2. Create `defaultCategoryDataStore` extension property (see hints)
+    1. Create a new package named `datastore`
+    2. Create `DefaultCategorylSerializer` class that extends `Serializer<DefaultCategory>` (see hints)
+    3. Create `defaultCategoryDataStore` extension property (see hints)
+
+
+4. Create a `DefaultCategoryRepository` inteface (see hints)
+    1. Should have a property named `defaultCategory` with type `Flow<DefaultCategory>`
+    2. Should have a suspending function named `updateDefaultCategory` that takes a `String` parameter `category`.
+
+5. Create a class `DataStoreCategoryRepository` that implements `DefaultCategoryRepository` (see hints)
+    1. The class should have a single constructor parameter `private val context: () -> Context`
+    2. Implement `defaultCategory` using a computed property `get() = context().defaultCategoryDataStore.data`
+    3. Implement `updateDefaultCategory()` to use our extention property `defaultCategoryDataStore` to update the currently saved `DefaultCategory`
+
+6. Pass an instance of `DefaultCategoryRepository` to `CreateNoteViewModel`
+    1. Add a constructor property to `CreateNoteViewModel` of type `DefaultCategoryRepository`
+    2. `CreateNoteViewModelFactory` should take an instance of `DefaultCategoryRepository` and pass it to the view model constructor
+    3. In `CreateNoteFragment`, create an instance of `DataStoreCategoryRepository` and pass it to the instance of `CreateNoteViewModelFactory`
+
+7. Add methods to `CreateNoteViewModel` for handling the `DefaultCategory`
+    1. Add a method `suspend fun saveSelectedCategory(selectedIndex: Int)` that calls `categoryRepository.updateDefaultCategory(CATEGORIES[selectedIndex])`
+    2. Add a method `fun indexForCategory(category: String): Int = CATEGORIES.indexOf(category)`
+
 4. Update category spinner to respond to selection and to set default value
-    1. Refactor `CategorySpinnerAdapter` to take a list of category `String`s in its constructor
-    2. Create a top-level property to store a `List<String>` of category `String`s to pass to the adapter
-    3. In `CreateNoteFragment.onCreateView()`, add a `OnItemSelectedListener` to your spinner
-    4. Save the selected category to your `DataStore` each time the spinner is selected
-    5. In `CreateNoteFragment.onViewCreated()` query `defaultCategoryDataStore` for the last used category and select that item in the current spinner
+    1. In `CreateNoteFragment.onCreateView()`, add a `OnItemSelectedListener` to your spinner
+    4. In `onItemSelected` launch a coroutine and call `viewModel.saveSelectedCategory(position)`
+    5. In `CreateNoteFragment.onViewCreated()` collect `cateogryRepository.defaultCategory` and call `binding.categorySpinner.setSelection(viewModel.indexForCategory(category.category))`
 
 # 🖥 Lab 13 Hints: Saving User Data Using DataStore
 
@@ -74,7 +98,19 @@ protobuf {
 ```
 
 ## 💡 Which DataStore dependency do I need?
-For this lab, you should only need ` implementation "androidx.datastore:datastore:1.0.0-rc01"`
+For this lab, you should only need ` implementation "androidx.datastore:datastore:1.0.0"`
+
+## 💡 What should DefaultCategory.proto look like?
+```
+syntax = "proto3";
+
+option java_package = "dev.goobar.androidstudyguide.protos";   <-- update this with the package name of your project
+option java_multiple_files = true;
+
+message DefaultCategory {
+  string category = 1;
+}
+```
 
 ## 💡 How do I implement DefaultCategorySerializer?
 You'll need to implement the `datastore.core.Serializer` interface with a type value of `DefaultCategory`.
@@ -100,6 +136,27 @@ class.  This lets us interact with DataStore any time we have access to a `Conte
 
 ```kotlin
 val Context.defaultCategoryDataStore: DataStore<DefaultCategory> by dataStore(fileName = "notes.pb", serializer = DefaultCategorySerializer)
+```
+
+## 💡 How to implement DefaultCategoryRepository
+```kotlin
+interface DefaultCategoryRepository {
+  val defaultCategory: Flow<DefaultCategory>
+  suspend fun updateDefaultCategory(category: String)
+}
+
+class DataStoreCategoryRepository(private val context: () -> Context) : DefaultCategoryRepository {
+
+  override val defaultCategory: Flow<DefaultCategory>
+    get() = context().defaultCategoryDataStore.data
+
+  override suspend fun updateDefaultCategory(category: String) {
+    context().defaultCategoryDataStore.updateData { defaultCategory ->
+      defaultCategory.toBuilder().setCategory(category).build()
+    }
+  }
+
+}
 ```
 
 ## 💡 How do I respond to Spinner selection?
