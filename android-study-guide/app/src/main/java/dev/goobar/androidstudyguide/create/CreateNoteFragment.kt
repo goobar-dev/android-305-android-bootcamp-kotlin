@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +19,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dev.goobar.androidstudyguide.databinding.FragmentCreateNoteBinding
+import dev.goobar.androidstudyguide.datastore.DataStoreCategoryRepository
+import dev.goobar.androidstudyguide.datastore.defaultCategoryDataStore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -24,8 +29,12 @@ import kotlinx.coroutines.launch
  */
 class CreateNoteFragment : Fragment() {
 
+  private val categoryRepository = DataStoreCategoryRepository() {
+    requireContext()
+  }
+
   private val viewModel: CreateNoteViewModel by viewModels(
-    factoryProducer = { CreateNoteViewModelFactory() }
+    factoryProducer = { CreateNoteViewModelFactory(categoryRepository) }
   )
 
   private var _binding: FragmentCreateNoteBinding? = null
@@ -84,6 +93,15 @@ class CreateNoteFragment : Fragment() {
       }
     }
 
+    binding.categorySpinner.onItemSelectedListener = object : OnItemSelectedListener {
+      override fun onNothingSelected(p0: AdapterView<*>?) {}
+      override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        lifecycleScope.launch(Dispatchers.IO) {
+          viewModel.saveSelectedCategory(position)
+        }
+      }
+    }
+
     return binding.root
   }
 
@@ -93,6 +111,14 @@ class CreateNoteFragment : Fragment() {
       repeatOnLifecycle(Lifecycle.State.STARTED) {
         viewModel.state.collect { uiState ->
           binding.categorySpinner.adapter = CategorySpinnerAdapter(requireContext(), uiState.categories)
+        }
+      }
+    }
+
+    lifecycleScope.launch {
+      repeatOnLifecycle(Lifecycle.State.STARTED) {
+        categoryRepository.defaultCategory.collect { category ->
+          binding.categorySpinner.setSelection(viewModel.indexForCategory(category.category))
         }
       }
     }
