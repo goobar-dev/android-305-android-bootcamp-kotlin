@@ -1,6 +1,8 @@
 package dev.goobar.androidstudyguide.create
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,6 +27,8 @@ import dev.goobar.androidstudyguide.studyGuideApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+private val REQUEST_CHOOSE_IMAGE = 0
+
 /**
  * Allows for the saving and editing of a note
  */
@@ -42,6 +46,9 @@ class CreateNoteFragment : Fragment() {
       )
     }
   )
+
+  private var noteId: Int? = null
+  private var uriToImage: String? = null
 
   private var _binding: FragmentCreateNoteBinding? = null
   private val binding: FragmentCreateNoteBinding
@@ -90,7 +97,8 @@ class CreateNoteFragment : Fragment() {
         viewModel.save(
           title = binding.titleEditText.text.toString(),
           categoryIndex = binding.categorySpinner.selectedItemPosition,
-          content = binding.noteEditText.text.toString()
+          content = binding.noteEditText.text.toString(),
+          imageUri = uriToImage
         )
         val snackbar = Snackbar.make(requireView(), "Saved the note!", Snackbar.LENGTH_SHORT)
         snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
@@ -113,6 +121,10 @@ class CreateNoteFragment : Fragment() {
       }
     }
 
+    binding.imageView?.setOnClickListener {
+      selectImage()
+    }
+
     return binding.root
   }
 
@@ -133,6 +145,28 @@ class CreateNoteFragment : Fragment() {
         }
       }
     }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if(requestCode != REQUEST_CHOOSE_IMAGE || resultCode == Activity.RESULT_CANCELED) return
+
+    if (resultCode == Activity.RESULT_OK && data != null) {
+      val contentResolver = requireContext().contentResolver
+      val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+      contentResolver.takePersistableUriPermission(data.data!!, takeFlags)
+
+      uriToImage = data.data.toString()
+      binding.imageView?.setImageURI(data.data)
+    }
+  }
+
+  private fun selectImage() {
+    val intent = Intent().apply {
+      type = "image/*"
+      action = Intent.ACTION_OPEN_DOCUMENT
+    }
+    startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CHOOSE_IMAGE)
   }
 
   private fun areInputsEntered(): Boolean {

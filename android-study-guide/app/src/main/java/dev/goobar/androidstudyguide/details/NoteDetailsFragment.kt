@@ -1,5 +1,6 @@
 package dev.goobar.androidstudyguide.details
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -63,6 +64,9 @@ class NoteDetailsFragment : Fragment() {
           binding.noteTitleTextView.text = uiState.title
           binding.noteCategoryTextView.text = uiState.category
           binding.noteContentTextView.text = uiState.content
+          if (uiState.imageUri != null) {
+            binding.noteImageView.setImageURI(Uri.parse(uiState.imageUri))
+          }
         }
       }
     }

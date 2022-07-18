@@ -24,19 +24,20 @@ class NoteDetailsViewModel(
   private val noteDao: NoteDao,
 ) : ViewModel() {
 
-  val state: MutableStateFlow<UiState> = MutableStateFlow(UiState("", "", ""))
+  val state: MutableStateFlow<UiState> = MutableStateFlow(UiState("", "", "", null))
 
   init {
     viewModelScope.launch(Dispatchers.IO) {
       val selectedNote = noteDao.get(id)
 
-      state.update { UiState(selectedNote.title, selectedNote.category, selectedNote.content) }
+      state.update { UiState(selectedNote.title, selectedNote.category, selectedNote.content, selectedNote.imageUri) }
     }
   }
 
   data class UiState(
     val title: String,
     val category: String,
-    val content: String
+    val content: String,
+    val imageUri: String?
   )
 }

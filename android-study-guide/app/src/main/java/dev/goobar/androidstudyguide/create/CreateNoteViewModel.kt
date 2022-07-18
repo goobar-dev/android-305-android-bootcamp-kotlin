@@ -27,8 +27,8 @@ class CreateNoteViewModel(
 
   val state: MutableStateFlow<UiState> = MutableStateFlow(UiState(CATEGORIES))
 
-  fun save(title: String, categoryIndex: Int, content: String) {
-    viewModelScope.launch { noteDao.save(Note(title, CATEGORIES[categoryIndex], content)) }
+  fun save(title: String, categoryIndex: Int, content: String, imageUri: String?) {
+    viewModelScope.launch { noteDao.save(Note(title, CATEGORIES[categoryIndex], content, imageUri)) }
   }
 
   suspend fun saveSelectedCategory(selectedIndex: Int) = categoryRepository.updateDefaultCategory(CATEGORIES[selectedIndex])
