@@ -16,7 +16,11 @@ class TwitterActivity : AppCompatActivity() {
     val binding = ActivityTwitterBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
-    startActivity(createTweetIntent())
+    binding.webView.settings.javaScriptEnabled = true
+    binding.webView.webChromeClient = ProgressChromeClient(binding.progressBar)
+    //binding.webView.loadTwitter()
+    binding.webView.loadTwitterComposer("androiddev", "kotlin")
+    //binding.webView.loadSimpleWebApp(this)
   }
 
   private fun createTweetIntent(): Intent {
