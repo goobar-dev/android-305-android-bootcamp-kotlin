@@ -32,6 +32,9 @@ Start building out a simple Jetpack Compose application to list and display loca
 
 ## Challenges
 
+1. Update the color schems in `Theme.kt` to customize the theme of your application
+2. Update the text styles in `Type.kt` to customize the typography in your application
+
 # 🖥 Lab 19 Hints: Create a new Jetpack Compose app
 
 ## 💡 How do I change which composeable is being drawn?
