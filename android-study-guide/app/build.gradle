@@ -22,6 +22,7 @@ android {
 
   defaultConfig {
     buildConfigField("String", "STUDY_GUIDE_SERVICE_URL", "${STUDY_GUIDE_SERVICE_URL}")
+    buildConfigField("String", "GITHUB_ANDROID_WORKSHOP_TOKEN", GITHUB_ANDROID_WORKSHOP_TOKEN)
   }
 
   buildTypes {
@@ -75,6 +76,9 @@ dependencies {
   implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
   implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
   ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
+
+  // Volley will help us make network requests for uploading notes
+  implementation("com.android.volley:volley:1.2.1")
 
   // used for DataStore
   implementation "androidx.datastore:datastore:1.0.0"

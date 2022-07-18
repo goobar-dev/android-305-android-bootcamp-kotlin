@@ -13,6 +13,8 @@ import androidx.navigation.fragment.navArgs
 import dev.goobar.androidstudyguide.R.layout
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
 import dev.goobar.androidstudyguide.studyGuideApplication
+import dev.goobar.androidstudyguide.upload.NoteUploadService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -41,6 +43,11 @@ class NoteDetailsFragment : Fragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     _binding = FragmentNoteDetailsBinding.inflate(inflater, container, false)
+
+    binding.uploadButton.setOnClickListener {
+      uploadNote()
+    }
+
     return binding.root
   }
 
@@ -60,5 +67,12 @@ class NoteDetailsFragment : Fragment() {
   override fun onDestroyView() {
     super.onDestroyView()
     _binding = null
+  }
+
+  private fun uploadNote() {
+    lifecycleScope.launch(Dispatchers.IO) {
+      val note = requireActivity().studyGuideApplication().database.noteDao().get(args.selectedNoteId)
+      requireContext().startService(NoteUploadService.getNoteUploadIntent(requireContext(), note))
+    }
   }
 }

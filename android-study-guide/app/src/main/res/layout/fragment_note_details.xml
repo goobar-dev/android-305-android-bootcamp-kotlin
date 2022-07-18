@@ -50,4 +50,16 @@
       tools:text="Android is a complex subject.  It can take a lot of work to learn"
       />
 
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/uploadButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:clickable="true"
+      android:src="@drawable/ic_baseline_cloud_upload_24"
+      app:backgroundTint="?attr/colorSecondary"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
