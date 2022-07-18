@@ -10,10 +10,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import dev.goobar.androidstudyguide.R.layout
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
 import dev.goobar.androidstudyguide.studyGuideApplication
 import dev.goobar.androidstudyguide.upload.NoteUploadService
+import dev.goobar.androidstudyguide.upload.NoteUploadWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -72,7 +76,12 @@ class NoteDetailsFragment : Fragment() {
   private fun uploadNote() {
     lifecycleScope.launch(Dispatchers.IO) {
       val note = requireActivity().studyGuideApplication().database.noteDao().get(args.selectedNoteId)
-      requireContext().startService(NoteUploadService.getNoteUploadIntent(requireContext(), note))
+
+      val uploadWorkRequest: WorkRequest =
+        OneTimeWorkRequestBuilder<NoteUploadWorker>()
+          .setInputData(NoteUploadWorker.buildInputData(note))
+          .build()
+      WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
     }
   }
 }

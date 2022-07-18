@@ -62,27 +62,19 @@ class NoteUploadService : Service() {
     body.put("message", "Upload from app") // commit message of file upload to GitHub
     body.put("content", content)
 
-    val request =  object : JsonObjectRequest(
-      Method.PUT,
-      "https://api.github.com/repos/goobar-dev/workshop-sample-data/contents/$filename",
+    val request = getUploadRequest(
       body,
-      {
+      filename,
+      onSuccess = {
         Log.d(TAG, "Successfully uploaded note")
         Toast.makeText(context, "Successfully uploaded note", Toast.LENGTH_SHORT).show()
         stopSelf()
       },
-      {
-        Log.d(TAG, "Error uploading note: ${it.message}")
+      onError = {
+        Log.d(TAG, "Error uploading note: ${it?.message}")
         stopSelf()
       }
-    ) {
-      override fun getHeaders(): MutableMap<String, String> {
-        return mutableMapOf(
-          "Authorization" to "token ${BuildConfig.GITHUB_ANDROID_WORKSHOP_TOKEN}",
-          "Accept" to "application/vnd.github.v3+json"
-        )
-      }
-    }
+    )
 
     requestQueue.add(request)
   }
@@ -94,6 +86,7 @@ class NoteUploadService : Service() {
 
       val noteFilename = parseNoteFilename(msg.data) ?: return
       val noteContent = parseNoteContent(msg.data) ?: return
+
 
       uploadFileData(this@NoteUploadService, noteFilename, noteContent)
     }
