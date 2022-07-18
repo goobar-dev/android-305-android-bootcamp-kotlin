@@ -43,8 +43,8 @@
         android:defaultValue="false"
         app:argType="boolean" />
     <argument
-        android:name="selectedNote"
-        app:argType="dev.goobar.androidstudyguide.data.Note" />
+        android:name="selectedNoteId"
+        app:argType="integer" />
   </fragment>
   <fragment
       android:id="@+id/createNoteFragment"

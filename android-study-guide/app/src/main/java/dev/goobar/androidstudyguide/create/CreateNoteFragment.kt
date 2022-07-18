@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import dev.goobar.androidstudyguide.databinding.FragmentCreateNoteBinding
 import dev.goobar.androidstudyguide.datastore.DataStoreCategoryRepository
 import dev.goobar.androidstudyguide.datastore.defaultCategoryDataStore
+import dev.goobar.androidstudyguide.studyGuideApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,12 @@ class CreateNoteFragment : Fragment() {
   }
 
   private val viewModel: CreateNoteViewModel by viewModels(
-    factoryProducer = { CreateNoteViewModelFactory(categoryRepository) }
+    factoryProducer = {
+      CreateNoteViewModelFactory(
+        categoryRepository,
+        requireActivity().studyGuideApplication().database.noteDao()
+      )
+    }
   )
 
   private var _binding: FragmentCreateNoteBinding? = null
@@ -81,6 +87,11 @@ class CreateNoteFragment : Fragment() {
 
     binding.saveButton.setOnClickListener {
       if (areInputsEntered()) {
+        viewModel.save(
+          title = binding.titleEditText.text.toString(),
+          categoryIndex = binding.categorySpinner.selectedItemPosition,
+          content = binding.noteEditText.text.toString()
+        )
         val snackbar = Snackbar.make(requireView(), "Saved the note!", Snackbar.LENGTH_SHORT)
         snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
           override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {

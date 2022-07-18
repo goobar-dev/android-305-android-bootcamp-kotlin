@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.goobar.androidstudyguide.R
 import dev.goobar.androidstudyguide.databinding.FragmentMyNotesBinding
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
+import dev.goobar.androidstudyguide.studyGuideApplication
 import kotlinx.coroutines.launch
 
 /**
@@ -22,9 +23,15 @@ import kotlinx.coroutines.launch
  */
 class MyNotesFragment : Fragment() {
 
-  private val viewModel: MyNotesViewModel by viewModels()
+  private val viewModel: MyNotesViewModel by viewModels(
+    factoryProducer = {
+      MyNotesViewModelFactory(
+        requireActivity().studyGuideApplication().database.noteDao()
+      )
+    }
+  )
   private val notesAdapter = MyNotesListAdapter() { note ->
-    findNavController().navigate(MyNotesFragmentDirections.actionMyNotesFragmentToNoteDetailsFragment(note))
+    findNavController().navigate(MyNotesFragmentDirections.actionMyNotesFragmentToNoteDetailsFragment(note.id))
   }
 
   private var _binding: FragmentMyNotesBinding? = null

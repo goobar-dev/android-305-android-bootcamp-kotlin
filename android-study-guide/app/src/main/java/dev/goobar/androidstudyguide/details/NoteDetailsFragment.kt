@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import dev.goobar.androidstudyguide.R.layout
 import dev.goobar.androidstudyguide.databinding.FragmentNoteDetailsBinding
+import dev.goobar.androidstudyguide.studyGuideApplication
 import kotlinx.coroutines.launch
 
 /**
@@ -21,7 +22,12 @@ class NoteDetailsFragment : Fragment() {
 
   private val args: NoteDetailsFragmentArgs by navArgs()
   private val viewModel: NoteDetailsViewModel by viewModels(
-    factoryProducer = { NoteDetailsViewModelFactory(args.selectedNote) }
+    factoryProducer = {
+      NoteDetailsViewModelFactory(
+        args.selectedNoteId,
+        requireActivity().studyGuideApplication().database.noteDao()
+      )
+    }
   )
 
   /**
