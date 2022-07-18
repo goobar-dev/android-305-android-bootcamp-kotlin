@@ -4,20 +4,30 @@ Let's implement a service to upload a `Note` to a public `GitHub` repo
 ## Objectives
 1. Add an "Upload" button to `NoteDetailFragment`
     1. When clicked, this button will eventually start our Service
-2. Create a `NoteUploadService` that extends `Service` and register it in `AndroidManfiest.xml`
+
+2. Create a new package `upload`
+
+2. Within `upload`, create a `NoteUploadService` that extends `Service` and register it in `AndroidManfiest.xml`
+
 3. Create a companion object in `NoteUploadService`
-4. Create a `getNoteUploadIntent(context: Context, note: Note): Intent` method
+
+5. Create a `getNoteUploadIntent(context: Context, note: Note): Intent` method
     1. This should return an `Intent` for starting `NoteUploadService`
     2. This should add an extra for Base64 encoded "content" coming from the passed `Note`
     3. This should add an extra for the filename to store the note as
-5. Using `getNoteUploadIntent()`, start the `Service` from `NoteDetailFragment` when the upload button is clicked
-6. In `NoteUploadService.onStartCommand()` parse the filename, and content `String`s from the `Intent`
-7. Build a `JsonObjectRequest` with Volley to create a new file, in GitHub, containing the contents of your `Note`
+
+6. Using `getNoteUploadIntent()`, start the `Service` from `NoteDetailFragment` when the upload button is clicked
+
+7. In `NoteUploadService.onStartCommand()` parse the filename, and content `String`s from the `Intent`
+
+8. Build a `JsonObjectRequest` with Volley to create a new file, in GitHub, containing the contents of your `Note`
     1. Should use a `PUT`
     2. Url should be a url to some public repository that you own and include the desired filename as the final PATH param
     3. The `jsonRequest` body must include `"message"` and `"content"` values
     4. Must include an `Authorization` header to authenticate the request
-8. Move request processing off the main thread
+    5. Add a new `BuildConfig` field named `GITHUB_ANDROID_WORKSHOP_TOKEN` that useas a PAT from GitHub to authenticate the request
+
+9. Move request processing off the main thread
     1. Setup a `HandlerThread` in `NoteUploadService.onCreate()` to manage requests off the main `Thread`
     2. Save a `Looper` reference
     3. Create a `ServiceHandler` class to handle `Looper` `Messages` and upload file data
