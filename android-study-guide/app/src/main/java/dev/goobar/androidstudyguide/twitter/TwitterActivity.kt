@@ -5,12 +5,16 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import dev.goobar.androidstudyguide.R.layout
+import dev.goobar.androidstudyguide.databinding.ActivityTwitterBinding
 import java.net.URLEncoder
 
 class TwitterActivity : AppCompatActivity() {
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(layout.activity_twitter)
+
+    val binding = ActivityTwitterBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
     startActivity(createTweetIntent())
   }
