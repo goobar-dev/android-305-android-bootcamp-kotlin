@@ -9,6 +9,14 @@ plugins {
   id 'org.jetbrains.kotlin.android' version '1.7.0' apply false
 }
 
+subprojects {
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+      freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+    }
+  }
+}
+
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
