@@ -14,13 +14,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.goobar.composelocations.data.LOCATIONS
 import dev.goobar.composelocations.data.Location
 
 @Composable
-fun MainScreen(onClick: (Location) -> Unit) {
+fun MainScreen(
+  viewModel: MainViewModel = viewModel(),
+  onClick: (Location) -> Unit
+) {
+  val state by viewModel.state.collectAsState()
+
   Scaffold(
     topBar = {
       SmallTopAppBar(
@@ -30,19 +38,27 @@ fun MainScreen(onClick: (Location) -> Unit) {
       )
     },
     content = {
-      MainListContent(Modifier.padding(it), onClick)
+      MainListContent(
+        locations = state.locations,
+        modifier = Modifier.padding(it),
+        onClick = onClick
+      )
     }
   )
 }
 
 @Composable
-private fun MainListContent(modifier: Modifier, onClick: (Location) -> Unit) {
+private fun MainListContent(
+  locations: List<Location>,
+  modifier: Modifier,
+  onClick: (Location) -> Unit
+) {
   LazyColumn(
     modifier = modifier,
     contentPadding = PaddingValues(20.dp),
     verticalArrangement = Absolute.spacedBy(20.dp)
   ) {
-    items(LOCATIONS) { location ->
+    items(locations) { location ->
       LocationCard(location, onClick)
     }
   }
