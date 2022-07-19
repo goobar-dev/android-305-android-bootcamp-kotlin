@@ -1,20 +1,32 @@
 package dev.goobar.composelocations.map
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dev.goobar.composelocations.data.Location
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
-class MapViewModelFactory(private val location: Location) : ViewModelProvider.Factory {
+class MapViewModelFactory(
+  private val context: Context,
+  private val location: Location
+) : ViewModelProvider.Factory {
   override fun <T : ViewModel> create(modelClass: Class<T>): T {
-    return MapViewModel(location) as T
+    return MapViewModel(
+      LocationServices.getFusedLocationProviderClient(context),
+      location
+    ) as T
   }
 }
 
-class MapViewModel(location: Location): ViewModel() {
+class MapViewModel(
+  private val locationClient: FusedLocationProviderClient,
+  location: Location
+): ViewModel() {
 
-  val state: StateFlow<UiState> = MutableStateFlow(
+  val state: MutableStateFlow<UiState> = MutableStateFlow(
     UiState(
       title = location.label,
       location = location,
@@ -22,6 +34,11 @@ class MapViewModel(location: Location): ViewModel() {
       zoom = 10f
     )
   )
+
+  @SuppressLint("MissingPermission")
+  fun onGpsClick() {
+    // todo
+  }
 
   data class UiState(
     val title: String,

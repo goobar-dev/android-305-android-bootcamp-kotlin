@@ -2,28 +2,33 @@ package dev.goobar.composelocations.map
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import dev.goobar.composelocations.R
 import dev.goobar.composelocations.R.drawable
 import dev.goobar.composelocations.data.Location
 
@@ -31,9 +36,9 @@ import dev.goobar.composelocations.data.Location
 fun MapScreen(
   location: Location,
   viewModel: MapViewModel = viewModel(
-    factory = MapViewModelFactory(location)
+    factory = MapViewModelFactory(LocalContext.current, location)
   ),
-  onBackClick: () -> Unit
+  onBackClick: () -> Unit,
 ) {
   val state by viewModel.state.collectAsState()
 
@@ -51,6 +56,9 @@ fun MapScreen(
         }
       )
     },
+    floatingActionButton = { GPSButton() {
+      viewModel.onGpsClick()
+    } },
     content = {
       MapContent(state, modifier = Modifier.padding(it))
     }
@@ -63,13 +71,27 @@ private fun MapContent(state: MapViewModel.UiState, modifier: Modifier) {
   val cameraPositionState = rememberCameraPositionState {
     position = CameraPosition.fromLatLngZoom(selectedLocation, state.zoom)
   }
+  val coroutineScope = rememberCoroutineScope()
+  LaunchedEffect(selectedLocation) {
+    cameraPositionState.animate(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(selectedLocation, state.zoom)))
+  }
+
   GoogleMap(
     modifier = Modifier.fillMaxSize(),
+    uiSettings = MapUiSettings(zoomControlsEnabled = false),
     cameraPositionState = cameraPositionState
   ) {
     Marker(
       state = MarkerState(position = selectedLocation),
       title = state.markerLabel
     )
+  }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun GPSButton(onGPSClick: () -> Unit) {
+  SmallFloatingActionButton(onClick = onGPSClick) {
+    Icon(painter = painterResource(id = R.drawable.ic_baseline_location_on_24), contentDescription = "Current location")
   }
 }
