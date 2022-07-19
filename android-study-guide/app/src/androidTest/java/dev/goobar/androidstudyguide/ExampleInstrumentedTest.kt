@@ -21,4 +21,9 @@ class ExampleInstrumentedTest {
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
     assertEquals("dev.goobar.androidstudyguide", appContext.packageName)
   }
+
+  @Test
+  fun `verifyEmptyEmailIsNotValid`() {
+    assertFalse(isEmail(""))
+  }
 }
