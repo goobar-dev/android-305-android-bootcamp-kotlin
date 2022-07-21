@@ -18,11 +18,12 @@ class StudyGuideViewModel : ViewModel() {
   init {
     viewModelScope.launch(Dispatchers.IO) {
       val topics = studyGuideService.getTopics()
-      state.update { currentValue -> UiState(topics) }
+      state.update { currentValue -> UiState(false, topics) }
     }
   }
 
   data class UiState(
+    val isLoading: Boolean = true,
     val topics: List<Topic> = emptyList()
   )
 }
